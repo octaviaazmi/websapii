@@ -1,0 +1,53 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary: #D4AF37; /* Metallic Gold as Primary */
+  --secondary: #92400E; /* Golden Brown */
+}
+
+@theme {
+  --color-primary-50: #fff9e5;
+  --color-primary-100: #faf1d6;
+  --color-primary-200: #fde68a;
+  --color-primary-300: #fcd34d;
+  --color-primary-400: #fbbf24;
+  --color-primary-500: #D4AF37;
+  --color-primary-600: #B8860B;
+  --color-primary-700: #92400e;
+  --color-primary-800: #78350f;
+  --color-primary-900: #451a03;
+
+  --color-secondary: #92400E;
+  --color-secondary-light: #D4AF37;
+  --color-secondary-dark: #78350F;
+
+  --font-sans: "Outfit", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  @apply bg-[#7B4C00] text-[#FDF5E6] font-sans antialiased overflow-x-hidden; /* Mid-Brown Background (Warna Ke-3) */
+}
+
+.glass-card {
+  @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-xl rounded-3xl;
+}
+
+.btn-premium {
+  @apply px-8 py-4 bg-gradient-to-r from-primary-600 to-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-primary-200/50 transition-all hover:shadow-primary-300/80 active:scale-95 hover:-translate-y-1;
+}
+
+.nav-link {
+  @apply text-sm font-semibold text-slate-600 hover:text-primary-600 transition-colors uppercase tracking-wider;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-amber-50;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-amber-200 rounded-full hover:bg-amber-300;
+}
