@@ -41,20 +41,20 @@ const Navbar = () => {
   return (
     <nav className={`sticky top-0 z-50 transition-all duration-300 ${
       isScrolled
-        ? 'bg-[#B47B00]/90 backdrop-blur-md border-b border-[#8B4513]/30 shadow-xl'
-        : 'bg-[#B47B00] border-b border-[#8B4513]/20'
+        ? 'bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm'
+        : 'bg-white border-b border-gray-100'
     }`}>
       <div className="max-w-7xl mx-auto px-4 py-3">
         
         {/* Main Row */}
         <div className="flex items-center gap-3">
 
-          {/* Logo */}
+          {/* Logo - Updated to indopalmSapi */}
           <Link to="/">
             <motion.div whileHover={{ scale: 1.05 }} className="flex-shrink-0 cursor-pointer flex items-center gap-2">
               <img src="/Logo%20Farm.png" alt="Indopalm Logo" className="h-10 w-auto" />
-              <span className="text-2xl font-black text-white tracking-tighter">
-                indopalm<span className="text-[#FCD34D]">Qu</span>
+              <span className="text-2xl font-black text-slate-800 tracking-tighter">
+                indopalm<span className="text-[#F59E0B]">Sapi</span>
               </span>
             </motion.div>
           </Link>
@@ -66,7 +66,7 @@ const Navbar = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearchClick()}
-              className="flex-1 bg-white border border-black/10 rounded-xl px-4 py-2 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#064E3B]/30 transition-all text-sm w-full font-medium"
+              className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#10B981]/50 transition-all text-sm w-full font-medium"
               placeholder="Cari Produk"
             />
             {filterOpen && (
@@ -85,8 +85,8 @@ const Navbar = () => {
             onClick={() => setFilterOpen(!filterOpen)}
             className={`flex items-center gap-2 px-5 py-3 font-extrabold rounded-xl border-b-4 transition-all ${
               filterOpen
-                ? 'bg-[#042F2E] text-white border-black'
-                : 'bg-[#064E3B] text-white border-[#042F2E] hover:bg-[#065F46]'
+                ? 'bg-[#047857] text-white border-[#064E3B]'
+                : 'bg-[#10B981] text-white border-[#059669] hover:bg-[#059669]'
             }`}
           >
             <span>Filter</span>
@@ -95,7 +95,7 @@ const Navbar = () => {
           {/* Search Button */}
           <button
             onClick={handleSearchClick}
-            className="p-3 bg-[#064E3B] text-white rounded-xl shadow-lg shadow-black/10 hover:bg-[#065F46] transition-all"
+            className="p-3 bg-[#10B981] text-white rounded-xl shadow-md hover:bg-[#059669] transition-all"
           >
             <Search className="h-6 w-6" />
           </button>
@@ -112,13 +112,13 @@ const Navbar = () => {
               transition={{ duration: 0.25, ease: 'easeInOut' }}
               className="overflow-hidden"
             >
-              <div className="flex flex-wrap items-center gap-3 pt-2">
+              <div className="flex flex-wrap items-center gap-3 pt-4 pb-2">
 
                 {/* Category Dropdown */}
                 <div className="relative">
                   <button
                     onClick={() => { setCategoryOpen(!categoryOpen); setFarmOpen(false); }}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#FBB016] rounded-xl text-black font-bold text-sm shadow-md hover:bg-[#FACC15] transition-all border border-black/10"
+                    className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-800 rounded-xl font-bold text-sm hover:bg-emerald-100 transition-all border border-emerald-200"
                   >
                     {selectedCategory}
                     <ChevronDown className={`h-4 w-4 transition-transform ${categoryOpen ? 'rotate-180' : ''}`} />
@@ -130,13 +130,13 @@ const Navbar = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -8 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute top-full mt-1 left-0 bg-white rounded-xl shadow-xl border border-orange-100 overflow-hidden z-50 min-w-[160px]"
+                        className="absolute top-full mt-2 left-0 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 min-w-[160px]"
                       >
                         {categories.map((cat) => (
                           <button
                             key={cat}
                             onClick={() => { setSelectedCategory(cat); setCategoryOpen(false); }}
-                            className={`w-full text-left px-4 py-2.5 text-sm font-medium hover:bg-white/5 transition-colors ${selectedCategory === cat ? 'text-[#D4AF37] font-bold' : 'text-[#FDF5E6]/70'}`}
+                            className={`w-full text-left px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors ${selectedCategory === cat ? 'text-[#10B981] font-bold bg-emerald-50/50' : 'text-slate-700'}`}
                           >
                             {cat}
                           </button>
@@ -150,7 +150,7 @@ const Navbar = () => {
                 <div className="relative">
                   <button
                     onClick={() => { setFarmOpen(!farmOpen); setCategoryOpen(false); }}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#FBB016] rounded-xl text-black font-bold text-sm shadow-md hover:bg-[#FACC15] transition-all border border-black/10"
+                    className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-800 rounded-xl font-bold text-sm hover:bg-emerald-100 transition-all border border-emerald-200"
                   >
                     {selectedFarm === 'Semua Kandang' ? 'Kandang' : selectedFarm.split(' ').slice(-1)[0]}
                     <ChevronDown className={`h-4 w-4 transition-transform ${farmOpen ? 'rotate-180' : ''}`} />
@@ -162,13 +162,13 @@ const Navbar = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -8 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute top-full mt-1 left-0 bg-white rounded-xl shadow-xl border border-orange-100 overflow-hidden z-50 min-w-[200px]"
+                        className="absolute top-full mt-2 left-0 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 min-w-[200px]"
                       >
                         {farms.map((farm) => (
                           <button
                             key={farm}
                             onClick={() => { setSelectedFarm(farm); setFarmOpen(false); }}
-                            className={`w-full text-left px-4 py-2.5 text-sm font-medium hover:bg-orange-50 transition-colors ${selectedFarm === farm ? 'text-orange-600 font-bold' : 'text-slate-700'}`}
+                            className={`w-full text-left px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors ${selectedFarm === farm ? 'text-[#10B981] font-bold bg-emerald-50/50' : 'text-slate-700'}`}
                           >
                             {farm}
                           </button>
@@ -181,7 +181,7 @@ const Navbar = () => {
                 {/* Terapkan Button */}
                 <button 
                    onClick={handleSearchClick}
-                   className="px-5 py-2 bg-[#064E3B] text-white font-bold text-sm rounded-xl hover:bg-[#065F46] transition-all shadow-sm"
+                   className="px-5 py-2 bg-[#F59E0B] text-white font-bold text-sm rounded-xl hover:bg-[#D97706] transition-all shadow-sm"
                 >
                   Terapkan
                 </button>
@@ -189,7 +189,7 @@ const Navbar = () => {
                 {/* Reset Button */}
                 <button
                   onClick={handleReset}
-                  className="px-5 py-2 bg-white text-slate-600 font-bold text-sm rounded-xl border border-slate-200 hover:bg-slate-50 transition-all shadow-sm"
+                  className="px-5 py-2 bg-white text-slate-500 font-bold text-sm rounded-xl border border-gray-200 hover:bg-gray-50 hover:text-slate-700 transition-all shadow-sm"
                 >
                   Reset
                 </button>

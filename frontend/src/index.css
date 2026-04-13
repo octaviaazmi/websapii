@@ -1,26 +1,25 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
-:root {
-  --primary: #F59E0B; /* Warna Emas/Oranye yang lebih cerah */
-  --secondary: #10B981; /* Warna Hijau Fresh (Emerald) */
-}
-
+/* Di Tailwind v4, semua custom warna diatur di dalam @theme */
 @theme {
-  --color-primary-50: #fff9e5;
-  --color-primary-100: #faf1d6;
-  --color-primary-200: #fde68a;
-  --color-primary-300: #fcd34d;
-  --color-primary-400: #fbbf24;
-  --color-primary-500: #D4AF37;
-  --color-primary-600: #B8860B;
-  --color-primary-700: #92400e;
-  --color-primary-800: #78350f;
-  --color-primary-900: #451a03;
+  /* Primary: Hijau Emerald Fresh */
+  --color-primary-50: #ecfdf5;
+  --color-primary-100: #d1fae5;
+  --color-primary-200: #a7f3d0;
+  --color-primary-300: #6ee7b7;
+  --color-primary-400: #34d399;
+  --color-primary-500: #10b981; 
+  --color-primary-600: #059669;
+  --color-primary-700: #047857;
+  --color-primary-800: #065f46;
+  --color-primary-900: #064e3b;
+  --color-primary-950: #022c22;
 
-  --color-secondary: #10B981;
-  --color-secondary-light: #34D399;
-  --color-secondary-dark: #059669;
+  /* Secondary: Oranye/Emas Ceria */
+  --color-secondary: #F59E0B;
+  --color-secondary-light: #FBBF24;
+  --color-secondary-dark: #D97706;
 
   --font-sans: "Outfit", system-ui, -apple-system, sans-serif;
 }
