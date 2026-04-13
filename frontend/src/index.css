@@ -2,8 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
-  --primary: #D4AF37; /* Metallic Gold as Primary */
-  --secondary: #92400E; /* Golden Brown */
+  --primary: #F59E0B; /* Warna Emas/Oranye yang lebih cerah */
+  --secondary: #10B981; /* Warna Hijau Fresh (Emerald) */
 }
 
 @theme {
@@ -18,27 +18,27 @@
   --color-primary-800: #78350f;
   --color-primary-900: #451a03;
 
-  --color-secondary: #92400E;
-  --color-secondary-light: #D4AF37;
-  --color-secondary-dark: #78350F;
+  --color-secondary: #10B981;
+  --color-secondary-light: #34D399;
+  --color-secondary-dark: #059669;
 
   --font-sans: "Outfit", system-ui, -apple-system, sans-serif;
 }
 
 body {
-  @apply bg-[#7B4C00] text-[#FDF5E6] font-sans antialiased overflow-x-hidden; /* Mid-Brown Background (Warna Ke-3) */
+  @apply bg-[#F9FAFB] text-[#1F2937] font-sans antialiased overflow-x-hidden; 
 }
 
 .glass-card {
-  @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-xl rounded-3xl;
+  @apply bg-white/80 backdrop-blur-md border border-gray-200 shadow-xl rounded-3xl;
 }
 
 .btn-premium {
-  @apply px-8 py-4 bg-gradient-to-r from-primary-600 to-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-primary-200/50 transition-all hover:shadow-primary-300/80 active:scale-95 hover:-translate-y-1;
+  @apply px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold rounded-2xl shadow-lg shadow-emerald-200/50 transition-all hover:shadow-emerald-300/80 active:scale-95 hover:-translate-y-1;
 }
 
 .nav-link {
-  @apply text-sm font-semibold text-slate-600 hover:text-primary-600 transition-colors uppercase tracking-wider;
+  @apply text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors uppercase tracking-wider;
 }
 
 /* Custom Scrollbar */
@@ -46,8 +46,8 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-amber-50;
+  @apply bg-gray-100;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-amber-200 rounded-full hover:bg-amber-300;
+  @apply bg-emerald-400 rounded-full hover:bg-emerald-500;
 }
