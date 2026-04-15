@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
+const categories = [
+  { id: 1, name: 'Sapi Bali', icon: '🐂' },
+  { id: 2, name: 'Sapi Madura', icon: '🐄' },
+  { id: 3, name: 'Sapi Limosin', icon: '🐃' },
+  { id: 4, name: 'Kambing', icon: '🐐' },
+  { id: 5, name: 'Domba', icon: '🐑' },
+];
+
 const CategoryFilters = ({ activeCategory, onSelect }) => {
   const [categories, setCategories] = useState([]);
   const [loading,    setLoading]    = useState(true);
