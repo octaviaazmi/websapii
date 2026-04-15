@@ -1,31 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Search, X, ChevronDown } from 'lucide-react';
+import { Search, X, ChevronDown, SlidersHorizontal } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 
-const categories = ['Ekonomis', 'Premium', 'Medium', 'Kambing Domba', 'Sapi Bali'];
-const farms = ['Semua Kandang', 'Indopalm Farm Tajurhalang', 'Mumbul Sari', 'Indopalm Farm Ciseeng'];
+const categories = ['Ekonomis', 'Medium', 'Premium', 'Kambing', 'Sapi Bali'];
+const farms      = ['Semua Kandang', 'Purnama Farm'];
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [filterOpen, setFilterOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('Ekonomis');
-  const [selectedFarm, setSelectedFarm] = useState('Semua Kandang');
-  const [categoryOpen, setCategoryOpen] = useState(false);
-  const [farmOpen, setFarmOpen] = useState(false);
+  const [isScrolled,       setIsScrolled]       = useState(false);
+  const [filterOpen,       setFilterOpen]        = useState(false);
+  const [searchQuery,      setSearchQuery]       = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('Semua Kategori');
+  const [selectedFarm,     setSelectedFarm]      = useState('Semua Kandang');
+  const [categoryOpen,     setCategoryOpen]      = useState(false);
+  const [farmOpen,         setFarmOpen]          = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const fn = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', fn);
+    return () => window.removeEventListener('scroll', fn);
   }, []);
-
-  const handleReset = () => {
-    setSelectedCategory('Semua Kategori');
-    setSelectedFarm('Semua Kandang');
-  };
 
   const handleClose = () => {
     setFilterOpen(false);
@@ -33,112 +28,113 @@ const Navbar = () => {
     setFarmOpen(false);
   };
 
-  const handleSearchClick = () => {
+  const handleSearch = () => {
     navigate(`/catalog?search=${encodeURIComponent(searchQuery)}&category=${encodeURIComponent(selectedCategory)}&farm=${encodeURIComponent(selectedFarm)}`);
     setFilterOpen(false);
   };
 
   return (
-    <nav className={`sticky top-0 z-50 transition-all duration-300 ${
-      isScrolled
-        ? 'bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm'
-        : 'bg-white border-b border-gray-100'
-    }`}>
+    <nav
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-white/95 backdrop-blur-lg shadow-md shadow-primary-100/40 border-b border-primary-100'
+          : 'bg-white border-b border-primary-100'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 py-3">
-        
-        {/* Main Row */}
+
+        {/* ── Main row ── */}
         <div className="flex items-center gap-3">
 
-          {/* Logo - Updated to indopalmSapi */}
-          <Link to="/">
-            <motion.div whileHover={{ scale: 1.05 }} className="flex-shrink-0 cursor-pointer flex items-center gap-2">
-              <img src="/Logo%20Farm.png" alt="Indopalm Logo" className="h-10 w-auto" />
-              <span className="text-2xl font-black text-slate-800 tracking-tighter">
-                indopalm<span className="text-[#F59E0B]">Sapi</span>
+          {/* Logo */}
+          <Link to="/" className="flex-shrink-0">
+            <motion.div whileHover={{ scale: 1.03 }} className="flex items-center gap-2 cursor-pointer">
+              <img src="/Logo%20Farm.png" alt="IPS" className="h-9 w-auto" />
+              <span
+                className="text-[22px] font-black text-primary-700 tracking-tight leading-none"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              >
+                indopalm<span className="text-silver-500">Sapi</span>
               </span>
+              <span className="px-1.5 py-0.5 bg-primary-500 text-white rounded-md text-[10px] font-black tracking-wide shadow-sm">IPS</span>
             </motion.div>
           </Link>
 
-          {/* Search Input */}
+          {/* Search input */}
           <div className="flex-1 relative">
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearchClick()}
-              className="flex-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#10B981]/50 transition-all text-sm w-full font-medium"
-              placeholder="Cari Produk"
+              onChange={e => setSearchQuery(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleSearch()}
+              placeholder="Cari sapi kurban..."
+              className="w-full bg-primary-50 border border-primary-200 rounded-xl px-4 py-2.5 text-silver-700 text-sm font-medium placeholder-silver-400
+                         focus:outline-none focus:ring-2 focus:ring-primary-400/50 focus:border-primary-400 transition-all"
             />
-            {filterOpen && (
-              <button
-                onClick={handleClose}
-                className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-slate-500 font-bold text-sm hover:text-red-500 transition-colors"
-              >
-                <X className="h-4 w-4" />
-                <span>Close</span>
-              </button>
-            )}
           </div>
 
-          {/* Filter Button */}
-          <button
+          {/* Filter toggle */}
+          <motion.button
+            whileTap={{ scale: 0.96 }}
             onClick={() => setFilterOpen(!filterOpen)}
-            className={`flex items-center gap-2 px-5 py-3 font-extrabold rounded-xl border-b-4 transition-all ${
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${
               filterOpen
-                ? 'bg-[#047857] text-white border-[#064E3B]'
-                : 'bg-[#10B981] text-white border-[#059669] hover:bg-[#059669]'
+                ? 'bg-primary-700 text-white'
+                : 'bg-primary-100 text-primary-700 hover:bg-primary-200'
             }`}
           >
-            <span>Filter</span>
-          </button>
+            <SlidersHorizontal className="h-4 w-4" />
+            <span className="hidden sm:inline">Filter</span>
+          </motion.button>
 
-          {/* Search Button */}
-          <button
-            onClick={handleSearchClick}
-            className="p-3 bg-[#10B981] text-white rounded-xl shadow-md hover:bg-[#059669] transition-all"
+          {/* Search button */}
+          <motion.button
+            whileTap={{ scale: 0.96 }}
+            onClick={handleSearch}
+            className="p-2.5 bg-primary-500 text-white rounded-xl hover:bg-primary-600 transition-all shadow-sm"
           >
-            <Search className="h-6 w-6" />
-          </button>
-
+            <Search className="h-5 w-5" />
+          </motion.button>
         </div>
 
-        {/* Filter Row */}
+        {/* ── Filter drawer ── */}
         <AnimatePresence>
           {filterOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.25, ease: 'easeInOut' }}
+              transition={{ duration: 0.22, ease: 'easeInOut' }}
               className="overflow-hidden"
             >
-              <div className="flex flex-wrap items-center gap-3 pt-4 pb-2">
+              <div className="flex flex-wrap items-center gap-2.5 pt-3.5 pb-1 border-t border-primary-100 mt-3">
 
-                {/* Category Dropdown */}
+                {/* Category */}
                 <div className="relative">
                   <button
                     onClick={() => { setCategoryOpen(!categoryOpen); setFarmOpen(false); }}
-                    className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-800 rounded-xl font-bold text-sm hover:bg-emerald-100 transition-all border border-emerald-200"
+                    className="flex items-center gap-2 px-4 py-2 bg-primary-50 border border-primary-200 text-primary-700 rounded-xl font-semibold text-sm hover:bg-primary-100 transition-all"
                   >
                     {selectedCategory}
-                    <ChevronDown className={`h-4 w-4 transition-transform ${categoryOpen ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`h-3.5 w-3.5 transition-transform ${categoryOpen ? 'rotate-180' : ''}`} />
                   </button>
                   <AnimatePresence>
                     {categoryOpen && (
                       <motion.div
-                        initial={{ opacity: 0, y: -8 }}
+                        initial={{ opacity: 0, y: -6 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -8 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute top-full mt-2 left-0 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 min-w-[160px]"
+                        exit={{ opacity: 0, y: -6 }}
+                        className="absolute top-full mt-1.5 left-0 bg-white rounded-xl shadow-xl border border-primary-100 z-50 min-w-[170px] py-1"
                       >
-                        {categories.map((cat) => (
+                        {['Semua Kategori', ...categories].map(c => (
                           <button
-                            key={cat}
-                            onClick={() => { setSelectedCategory(cat); setCategoryOpen(false); }}
-                            className={`w-full text-left px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors ${selectedCategory === cat ? 'text-[#10B981] font-bold bg-emerald-50/50' : 'text-slate-700'}`}
+                            key={c}
+                            onClick={() => { setSelectedCategory(c); setCategoryOpen(false); }}
+                            className={`w-full text-left px-4 py-2.5 text-sm font-medium transition-colors hover:bg-primary-50 ${
+                              selectedCategory === c ? 'text-primary-600 font-bold bg-primary-50' : 'text-silver-700'
+                            }`}
                           >
-                            {cat}
+                            {c}
                           </button>
                         ))}
                       </motion.div>
@@ -146,31 +142,32 @@ const Navbar = () => {
                   </AnimatePresence>
                 </div>
 
-                {/* Farm Dropdown */}
+                {/* Farm */}
                 <div className="relative">
                   <button
                     onClick={() => { setFarmOpen(!farmOpen); setCategoryOpen(false); }}
-                    className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-800 rounded-xl font-bold text-sm hover:bg-emerald-100 transition-all border border-emerald-200"
+                    className="flex items-center gap-2 px-4 py-2 bg-primary-50 border border-primary-200 text-primary-700 rounded-xl font-semibold text-sm hover:bg-primary-100 transition-all"
                   >
-                    {selectedFarm === 'Semua Kandang' ? 'Kandang' : selectedFarm.split(' ').slice(-1)[0]}
-                    <ChevronDown className={`h-4 w-4 transition-transform ${farmOpen ? 'rotate-180' : ''}`} />
+                    {selectedFarm}
+                    <ChevronDown className={`h-3.5 w-3.5 transition-transform ${farmOpen ? 'rotate-180' : ''}`} />
                   </button>
                   <AnimatePresence>
                     {farmOpen && (
                       <motion.div
-                        initial={{ opacity: 0, y: -8 }}
+                        initial={{ opacity: 0, y: -6 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -8 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute top-full mt-2 left-0 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 min-w-[200px]"
+                        exit={{ opacity: 0, y: -6 }}
+                        className="absolute top-full mt-1.5 left-0 bg-white rounded-xl shadow-xl border border-primary-100 z-50 min-w-[200px] py-1"
                       >
-                        {farms.map((farm) => (
+                        {farms.map(f => (
                           <button
-                            key={farm}
-                            onClick={() => { setSelectedFarm(farm); setFarmOpen(false); }}
-                            className={`w-full text-left px-4 py-2.5 text-sm font-medium hover:bg-gray-50 transition-colors ${selectedFarm === farm ? 'text-[#10B981] font-bold bg-emerald-50/50' : 'text-slate-700'}`}
+                            key={f}
+                            onClick={() => { setSelectedFarm(f); setFarmOpen(false); }}
+                            className={`w-full text-left px-4 py-2.5 text-sm font-medium transition-colors hover:bg-primary-50 ${
+                              selectedFarm === f ? 'text-primary-600 font-bold bg-primary-50' : 'text-silver-700'
+                            }`}
                           >
-                            {farm}
+                            {f}
                           </button>
                         ))}
                       </motion.div>
@@ -178,22 +175,26 @@ const Navbar = () => {
                   </AnimatePresence>
                 </div>
 
-                {/* Terapkan Button */}
-                <button 
-                   onClick={handleSearchClick}
-                   className="px-5 py-2 bg-[#F59E0B] text-white font-bold text-sm rounded-xl hover:bg-[#D97706] transition-all shadow-sm"
+                {/* Apply */}
+                <button
+                  onClick={handleSearch}
+                  className="px-5 py-2 bg-primary-500 text-white font-bold text-sm rounded-xl hover:bg-primary-600 transition-all shadow-sm"
                 >
                   Terapkan
                 </button>
 
-                {/* Reset Button */}
+                {/* Reset */}
                 <button
-                  onClick={handleReset}
-                  className="px-5 py-2 bg-white text-slate-500 font-bold text-sm rounded-xl border border-gray-200 hover:bg-gray-50 hover:text-slate-700 transition-all shadow-sm"
+                  onClick={() => { setSelectedCategory('Semua Kategori'); setSelectedFarm('Semua Kandang'); }}
+                  className="px-5 py-2 bg-white text-silver-500 font-semibold text-sm rounded-xl border border-silver-200 hover:bg-silver-50 transition-all"
                 >
                   Reset
                 </button>
 
+                {/* Close */}
+                <button onClick={handleClose} className="ml-auto flex items-center gap-1 text-silver-400 hover:text-primary-500 font-semibold text-sm transition-colors">
+                  <X className="h-4 w-4" /> Tutup
+                </button>
               </div>
             </motion.div>
           )}

@@ -1,52 +1,92 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
 
-/* Di Tailwind v4, semua custom warna diatur di dalam @theme */
 @theme {
-  /* Primary: Hijau Emerald Fresh */
-  --color-primary-50: #ecfdf5;
-  --color-primary-100: #d1fae5;
-  --color-primary-200: #a7f3d0;
-  --color-primary-300: #6ee7b7;
-  --color-primary-400: #34d399;
-  --color-primary-500: #10b981; 
-  --color-primary-600: #059669;
-  --color-primary-700: #047857;
-  --color-primary-800: #065f46;
-  --color-primary-900: #064e3b;
-  --color-primary-950: #022c22;
+  /* ===== COKLAT / BRONZE LOGO ===== */
+  --color-primary-50:  #f9f4ef;
+  --color-primary-100: #f0e4d4;
+  --color-primary-200: #dfc5a8;
+  --color-primary-300: #cb9f76;
+  --color-primary-400: #b97e51;
+  --color-primary-500: #8c6239;   /* Main bronze */
+  --color-primary-600: #7a5232;
+  --color-primary-700: #63412a;
+  --color-primary-800: #503525;
+  --color-primary-900: #412b1e;
+  --color-primary-950: #2c1a10;
 
-  /* Secondary: Oranye/Emas Ceria */
-  --color-secondary: #F59E0B;
-  --color-secondary-light: #FBBF24;
-  --color-secondary-dark: #D97706;
+  /* ===== SILVER / KOIN ===== */
+  --color-silver-50:  #f8fafc;
+  --color-silver-100: #f1f5f9;
+  --color-silver-200: #e2e8f0;
+  --color-silver-300: #cbd5e1;
+  --color-silver-400: #94a3b8;
+  --color-silver-500: #64748b;    /* Main silver */
+  --color-silver-600: #475569;
+  --color-silver-700: #334155;
+  --color-silver-800: #1e293b;
 
-  --font-sans: "Outfit", system-ui, -apple-system, sans-serif;
+  /* ===== FONTS ===== */
+  /* Display / Judul besar: Playfair Display (serif elegan) */
+  /* Body / UI: Plus Jakarta Sans (modern, readable) */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans:    "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 }
+
+/* ─── Base ─── */
+*, *::before, *::after { box-sizing: border-box; }
 
 body {
-  @apply bg-[#F9FAFB] text-[#1F2937] font-sans antialiased overflow-x-hidden; 
+  @apply bg-primary-50 text-silver-700 antialiased overflow-x-hidden;
+  font-family: var(--font-sans);
 }
 
-.glass-card {
-  @apply bg-white/80 backdrop-blur-md border border-gray-200 shadow-xl rounded-3xl;
+/* ─── Display font helper ─── */
+.font-display {
+  font-family: var(--font-display);
 }
 
-.btn-premium {
-  @apply px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold rounded-2xl shadow-lg shadow-emerald-200/50 transition-all hover:shadow-emerald-300/80 active:scale-95 hover:-translate-y-1;
+/* ─── Bronze button ─── */
+.btn-bronze {
+  @apply px-7 py-3.5 font-bold rounded-2xl transition-all duration-200
+    bg-primary-500 text-white
+    hover:bg-primary-600 active:scale-[0.97]
+    shadow-md shadow-primary-200/60;
 }
 
-.nav-link {
-  @apply text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors uppercase tracking-wider;
+.btn-bronze-outline {
+  @apply px-7 py-3.5 font-bold rounded-2xl transition-all duration-200
+    border-2 border-primary-500 text-primary-600
+    hover:bg-primary-50 active:scale-[0.97];
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+.btn-silver {
+  @apply px-7 py-3.5 font-bold rounded-2xl transition-all duration-200
+    bg-silver-500 text-white
+    hover:bg-silver-600 active:scale-[0.97];
 }
-::-webkit-scrollbar-track {
-  @apply bg-gray-100;
+
+/* ─── Card base ─── */
+.card {
+  @apply bg-white rounded-3xl border border-primary-100 shadow-sm;
 }
-::-webkit-scrollbar-thumb {
-  @apply bg-emerald-400 rounded-full hover:bg-emerald-500;
+
+/* ─── Koin-texture shimmer for decorative accents ─── */
+.koin-shimmer {
+  background: linear-gradient(135deg,
+    #b97e51 0%, #e8c285 30%, #8c6239 50%,
+    #e8c285 70%, #7a5232 100%);
+  background-size: 200% 200%;
+  animation: shimmer 4s ease infinite;
 }
+
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #b97e51; border-radius: 3px; }

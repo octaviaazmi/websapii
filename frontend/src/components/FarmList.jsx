@@ -1,99 +1,91 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
-const FarmList = ({ onSelectFarm, activeFarm }) => {
-  const [farms, setFarms] = useState([]);
-  const [loading, setLoading] = useState(true);
+const farms = [
+  {
+    id: 'Purnama Farm',
+    name: 'Purnama Farm',
+    location: 'Bogor, Jawa Barat',
+    image: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&q=80&w=800',
+    description: 'Mitra utama IndoPalm Sapi. Pusat peternakan sapi kurban berkualitas, dirawat dengan prosedur standar tinggi.',
+    badge: 'MITRA UTAMA IPS',
+  },
+];
 
-  useEffect(() => {
-    const fetchFarms = async () => {
-      try {
-        const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
-        const res = await fetch(`${baseUrl}/api/farms`);
-        const data = await res.json();
-        setFarms(data);
-      } catch (err) {
-        console.error('Error fetching farms:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFarms();
-  }, []);
-
-  const containerVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.5 } },
-  };
-
-  if (loading) return null;
-
+const FarmList = ({ activeFarm, onSelectFarm }) => {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-4 w-full flex justify-center">
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        className="bg-[#B47B00] rounded-[2.5rem] md:rounded-[4rem] p-6 md:p-12 md:pb-16 border-b-[8px] md:border-b-[12px] border-black/10 shadow-2xl w-full flex flex-col items-center overflow-hidden"
-      >
-        <div className="flex flex-col items-center mb-10 md:mb-14">
-          <p className="text-[10px] md:text-sm font-[1000] text-white/70 uppercase tracking-[0.4em] mb-4 text-center">
-            KANDANG KOLABORASI MITRA BISNIS INDOPALMQU
-          </p>
-          <div className="w-24 h-2 bg-white/30 rounded-full"></div>
-        </div>
+    <div className="w-full max-w-7xl mx-auto px-4 mt-10 mb-6">
 
-        <div className="bg-[#FDF5E6]/10 backdrop-blur-md rounded-[2.5rem] md:rounded-[4rem] p-6 md:p-10 w-full max-w-6xl border border-white/20 shadow-inner">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 w-full">
-            {farms.map((farm, index) => (
-              <motion.button
-                key={farm.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                onClick={() => onSelectFarm(farm.name)}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className={`group flex items-center gap-6 p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] border-4 transition-all text-left w-full ${
-                  activeFarm === farm.name
-                    ? 'bg-[#FDF5E6] border-white shadow-2xl text-[#064E3B] scale-[1.02] z-10'
-                    : 'bg-[#FDF5E6]/80 border-white/20 shadow-xl hover:bg-[#FDF5E6] hover:shadow-2xl'
-                }`}
-              >
-                <div className="w-16 h-16 md:w-24 md:h-24 bg-white rounded-3xl md:rounded-[2rem] flex items-center justify-center p-3 md:p-4 shadow-inner border border-slate-50 flex-none overflow-hidden">
-                  <img 
-                      src={farm.logo_url || "https://cdn-icons-png.flaticon.com/512/619/619153.png"} 
-                      alt="farm house icon" 
-                      className={`w-full h-full object-contain transition-all duration-500 ${
-                         activeFarm === farm.name ? 'opacity-100' : 'opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100'
-                      }`}
-                  />
-                </div>
-                <p className={`flex-1 font-[1000] text-xs md:text-base uppercase tracking-wider leading-tight transition-colors ${
-                  activeFarm === farm.name ? 'text-[#064E3B]' : 'text-[#064E3B]/70'
-                }`}>
-                  {farm.name}
-                </p>
-              </motion.button>
-            ))}
-          </div>
+      {/* Section header */}
+      <div className="flex items-end justify-between mb-6">
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary-400 mb-1">Rekanan Resmi</p>
+          <h2
+            className="text-2xl md:text-3xl font-black text-primary-800 leading-tight"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            Mitra Peternakan
+          </h2>
         </div>
-      </motion.div>
+        <div className="h-px flex-1 mx-6 bg-primary-200/60 mb-2" />
+        <p className="text-xs font-semibold text-silver-500 mb-2">Kandang terverifikasi kami</p>
+      </div>
+
+      {/* Farm cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {farms.map((farm) => {
+          const isActive = activeFarm === farm.id;
+          return (
+            <motion.div
+              key={farm.id}
+              whileHover={{ y: -6 }}
+              onClick={() => onSelectFarm(farm.name)}
+              className={`cursor-pointer rounded-3xl overflow-hidden border-2 transition-all duration-300 bg-white ${
+                isActive
+                  ? 'border-primary-500 shadow-xl shadow-primary-200/50'
+                  : 'border-primary-100 hover:border-primary-300 hover:shadow-lg hover:shadow-primary-100/50'
+              }`}
+            >
+              {/* Image */}
+              <div className="h-48 overflow-hidden relative">
+                <img
+                  src={farm.image}
+                  alt={farm.name}
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary-950/80 via-primary-950/20 to-transparent" />
+                {/* Badge */}
+                <div className="absolute bottom-4 left-4">
+                  <span className="bg-primary-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
+                    {farm.badge}
+                  </span>
+                </div>
+                {/* Verified pill */}
+                <div className="absolute top-4 right-4">
+                  <span className="bg-white/20 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/30">
+                    ✓ Terverifikasi
+                  </span>
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <h3 className="text-lg font-black text-primary-800 mb-1.5"
+                  style={{ fontFamily: "'Playfair Display', serif" }}>
+                  {farm.name}
+                </h3>
+                <p className="text-sm font-medium text-silver-500 mb-4 leading-relaxed">
+                  {farm.description}
+                </p>
+                <div className="flex items-center gap-2 text-xs font-bold text-primary-600 bg-primary-50 px-3 py-2 rounded-xl">
+                  <span>📍</span>
+                  <span>{farm.location}</span>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
     </div>
   );
 };

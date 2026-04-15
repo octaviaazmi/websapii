@@ -8,48 +8,53 @@ import { motion, useScroll, useSpring } from 'framer-motion';
 
 function App() {
   const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
   return (
     <Router>
-      {/* REVISI: Background diubah dari bg-[#7B4C00] (coklat) menjadi bg-[#F9FAFB] (abu-abu sangat terang/putih).
-        Teks diubah dari text-[#FDF5E6] menjadi text-[#1F2937] (abu-abu gelap).
-        Warna seleksi teks diubah ke nuansa emerald.
-      */}
-      <div className="min-h-screen bg-[#F9FAFB] font-sans text-[#1F2937] selection:bg-emerald-200 selection:text-emerald-900 flex flex-col">
-        
-        {/* Scroll Progress Bar: Diubah ke warna Emerald */}
+      <div className="min-h-screen bg-primary-50 flex flex-col">
+        {/* Progress bar */}
         <motion.div
-          className="fixed top-0 left-0 right-0 h-1 bg-[#10B981] origin-left z-[100]"
-          style={{ scaleX }}
+          className="fixed top-0 left-0 right-0 h-0.5 origin-left z-[100]"
+          style={{ scaleX, background: 'linear-gradient(90deg, #8c6239, #b97e51, #64748b)' }}
         />
 
         <Navbar />
-        
-        <div className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/catalog" element={<Catalog />} />
-            <Route path="/catalog/detail/:id" element={<ProductDetail />} />
-          </Routes>
-        </div>
 
-        {/* Footer / Copyright: Diubah agar lebih clean dan cerah. 
-          Background putih, border atas tipis, teks logo disesuaikan.
-        */}
-        <footer className="py-12 bg-white border-t border-gray-200 text-center mt-auto">
-          <div className="mb-4">
-            <span className="text-6xl font-black text-slate-800 tracking-tighter select-none">
-              indopalm<span className="text-[#F59E0B]">Sapi</span>
-            </span>
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/"                    element={<Home />} />
+            <Route path="/catalog"             element={<Catalog />} />
+            <Route path="/catalog/detail/:id"  element={<ProductDetail />} />
+          </Routes>
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-primary-950 text-white py-14">
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            {/* Logo */}
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <img src="/Logo%20Farm.png" alt="IPS Logo" className="h-10 w-auto opacity-90" />
+              <span
+                className="text-3xl font-display font-black tracking-tight"
+                style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+              >
+                indopalm<span className="text-primary-400">Sapi</span>
+              </span>
+              <span className="px-2 py-0.5 bg-primary-500 text-white rounded-lg text-sm font-black">IPS</span>
+            </div>
+
+            {/* Tagline */}
+            <p className="text-primary-300/70 text-xs font-medium tracking-widest uppercase mb-6">
+              Solusi Qurban Lebih Ringan, Terencana & Bermakna
+            </p>
+
+            <div className="w-16 h-px bg-primary-700 mx-auto mb-6" />
+
+            <p className="text-primary-400/50 text-[11px] font-semibold uppercase tracking-[0.4em]">
+              © 2026 IndoPalm Sapi (IPS) · Purnama Farm Partner
+            </p>
           </div>
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.5em]">
-            © 2026 indopalmSapi • Premium Sacrificial Animals
-          </p>
         </footer>
       </div>
     </Router>

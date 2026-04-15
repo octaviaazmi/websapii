@@ -1,91 +1,93 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import ProductGrid from '../components/ProductGrid';
 import CategoryFilters from '../components/CategoryFilters';
 import { motion } from 'framer-motion';
-import { ChevronLeft, RotateCcw } from 'lucide-react';
+import { ChevronLeft, Search } from 'lucide-react';
 
 const Catalog = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  
-  const category = searchParams.get('category') || 'Ekonomis';
-  const farm = searchParams.get('farm') || 'Semua Kandang';
-  const search = searchParams.get('search') || '';
 
-  const [searchQueryLocal, setSearchQueryLocal] = useState(search);
+  const category = searchParams.get('category') || 'Semua Kategori';
+  const farm     = searchParams.get('farm')     || 'Semua Kandang';
+  const search   = searchParams.get('search')   || '';
 
-  const handleCategorySelect = (newCat) => {
-    setSearchParams({ category: newCat, farm, search });
-  };
+  const [localSearch, setLocalSearch] = useState(search);
 
-  const handleSearchSubmit = () => {
-    setSearchParams({ category, farm, search: searchQueryLocal });
-  };
-
-  const handleReset = () => {
-    setSearchParams({ category: 'Ekonomis', farm: 'Semua Kandang', search: '' });
-    setSearchQueryLocal('');
-  };
-
-  const hasFilters = category !== 'Ekonomis' || farm !== 'Semua Kandang' || search !== '';
+  const handleCategorySelect = (cat) => setSearchParams({ category: cat, farm, search });
+  const handleSearchSubmit   = ()    => setSearchParams({ category, farm, search: localSearch });
 
   return (
-    <div className="max-w-7xl mx-auto pb-8 px-4">
-      {/* Unified Header (Back Button, Title, and Search Bar on One Line) */}
-      <div className="py-4 flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-100 mb-4">
-        <div className="flex items-center gap-4">
-          <button 
+    <div className="max-w-7xl mx-auto pb-12 px-4">
+
+      {/* ── Page header ── */}
+      <div className="py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2">
+
+        {/* Left: back + title */}
+        <div className="flex items-center gap-3">
+          <motion.button
+            whileTap={{ scale: 0.95 }}
             onClick={() => navigate('/')}
-            className="flex items-center gap-1 bg-[#FBB016] hover:bg-orange-600 text-white px-4 py-2 rounded-xl font-black text-xs uppercase shadow-sm transition-all flex-none"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-100 text-primary-700 font-bold text-sm hover:bg-primary-200 transition-all"
           >
-            <ChevronLeft className="w-5 h-5 stroke-[3px]" />
+            <ChevronLeft className="h-4 w-4 stroke-2" />
             Kembali
-          </button>
-          <h2 className="text-xl md:text-2xl font-black text-white tracking-tight whitespace-nowrap">
-            Kategori {category}
-          </h2>
+          </motion.button>
+
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-widest text-primary-400">Katalog</p>
+            <h2 className="text-lg font-black text-primary-800 leading-none"
+              style={{ fontFamily: "'Playfair Display', serif" }}>
+              {category === 'Semua Kategori' ? 'Semua Sapi' : `Sapi ${category}`}
+            </h2>
+          </div>
         </div>
 
-        <div className="w-full md:max-w-md">
-          <div className="flex items-stretch gap-0 rounded-lg overflow-hidden border border-slate-200 shadow-sm bg-white">
-            <input 
-              type="text"
-              value={searchQueryLocal}
-              onChange={(e) => setSearchQueryLocal(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearchSubmit()}
-              className="flex-1 px-4 py-2 text-sm text-slate-600 focus:outline-none"
-              placeholder="Cari..."
-            />
-            <button 
-              onClick={handleSearchSubmit}
-              className="px-6 py-2 bg-slate-50 border-l border-slate-200 text-slate-600 font-bold hover:bg-white transition-colors text-sm"
-            >
-              Cari
-            </button>
-          </div>
+        {/* Right: search */}
+        <div className="flex items-center gap-0 rounded-xl overflow-hidden border border-primary-200 shadow-sm bg-white w-full sm:max-w-xs">
+          <input
+            type="text"
+            value={localSearch}
+            onChange={e => setLocalSearch(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleSearchSubmit()}
+            placeholder="Cari sapi..."
+            className="flex-1 px-4 py-2.5 text-sm text-silver-700 focus:outline-none font-medium"
+          />
+          <button
+            onClick={handleSearchSubmit}
+            className="px-4 py-2.5 bg-primary-500 text-white hover:bg-primary-600 transition-colors"
+          >
+            <Search className="h-4 w-4" />
+          </button>
         </div>
       </div>
 
-      {/* Product Grid */}
-      <ProductGrid 
-        categoryId={category} 
-        farmName={farm} 
-        searchQuery={search} 
+      {/* ── Category filters ── */}
+      <CategoryFilters
+        activeCategory={category}
+        onSelect={handleCategorySelect}
       />
 
-      {/* Simple Pagination Placeholder (Match Reference) */}
-      <div className="mt-8 flex justify-center items-center gap-2">
-         {[1, 2, '»'].map((page, i) => (
-           <button 
+      {/* ── Product grid ── */}
+      <div className="mt-6">
+        <ProductGrid categoryId={category} farmName={farm} searchQuery={search} />
+      </div>
+
+      {/* ── Pagination ── */}
+      <div className="mt-10 flex justify-center items-center gap-2">
+        {[1, 2, '›'].map((page, i) => (
+          <button
             key={i}
-            className={`w-10 h-10 flex items-center justify-center rounded-lg font-bold text-sm transition-all ${
-              page === 1 ? 'bg-[#FBB016] text-white shadow-lg shadow-orange-500/20' : 'bg-white border border-orange-100 text-[#FBB016] hover:bg-orange-50'
+            className={`w-10 h-10 flex items-center justify-center rounded-xl font-bold text-sm transition-all ${
+              page === 1
+                ? 'bg-primary-500 text-white shadow-md shadow-primary-200'
+                : 'bg-white border border-primary-200 text-primary-500 hover:bg-primary-50'
             }`}
-           >
-             {page}
-           </button>
-         ))}
+          >
+            {page}
+          </button>
+        ))}
       </div>
     </div>
   );

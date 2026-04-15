@@ -1,113 +1,104 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 
-const ProductGrid = ({ categoryId, farmName, searchQuery, limit }) => {
+const ProductGrid = ({ limit }) => {
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        const baseUrl = window.location.hostname === 'localhost' 
-          ? 'http://localhost:5000' 
-          : ''; // Relative to same domain in production
-        
-        let url = `${baseUrl}/api/products?`;
-        if (categoryId && categoryId !== 'Semua Kategori') url += `category=${categoryId}&`;
-        if (farmName && farmName !== 'Semua Kandang') url += `farm=${farmName}&`;
-        if (searchQuery) url += `search=${searchQuery}&`;
+  const dummyProducts = Array.from({ length: 12 }).map((_, i) => ({
+    id: i + 1,
+    name: `Sapi Qurban IPS - ${i + 1}`,
+    kode_unik: `IPS-${100 + i}`,
+    harga: 0,
+    jenis: 'Sapi',
+    farm_name: 'Purnama Farm',
+  }));
 
-        const res = await fetch(url);
-        const data = await res.json();
-        setProducts(data);
-      } catch (err) {
-        console.error('Error fetching products:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const display = limit ? dummyProducts.slice(0, limit) : dummyProducts;
 
-    fetchProducts();
-  }, [categoryId, farmName, searchQuery]);
+  const container = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.07 } },
+  };
 
-  // Membatasi jumlah produk yang tampil jika prop 'limit' diberikan
-  const displayedProducts = limit ? products.slice(0, limit) : products;
-
-  if (loading) {
-    return (
-      <div className="w-full py-20 flex justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#10B981]"></div>
-      </div>
-    );
-  }
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show:   { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+  };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 w-full">
-      {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        {displayedProducts.map((product) => (
-          <motion.div
-            key={product.id}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            whileHover={{ y: -8 }}
-            onClick={() => navigate(`/catalog/detail/${product.id}`)}
-            className="group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-xl relative cursor-pointer"
-          >
-            {/* Top Badge (Kode Unik) */}
-            <div className="relative h-48 bg-black/5">
-               <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-[#F59E0B] text-white px-6 py-1 rounded-b-2xl font-black text-sm z-10 text-center shadow-md">
-                  <div className="text-[10px] text-white/80 font-bold uppercase tracking-tighter">{product.jenis}</div>
-                  {product.kode_unik}
-               </div>
-               {product.image_url ? (
-                 <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-               ) : (
-                 <div className="w-full h-full flex items-center justify-center text-slate-300 bg-gray-50">
-                    <span className="text-4xl text-emerald-200">🐂</span>
-                 </div>
-               )}
-               <div className="absolute bottom-2 right-2 opacity-60 text-[10px] font-bold text-slate-500">#IngatQurban</div>
+    <motion.div
+      variants={container}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.05 }}
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+      {display.map((p) => (
+        <motion.div
+          key={p.id}
+          variants={item}
+          whileHover={{ y: -6 }}
+          onClick={() => navigate(`/catalog/detail/${p.id}`)}
+          className="bg-white rounded-3xl overflow-hidden border border-primary-100
+                     shadow-sm hover:shadow-xl hover:shadow-primary-100/60
+                     cursor-pointer group transition-all duration-300"
+        >
+          {/* Image placeholder */}
+          <div className="h-52 relative overflow-hidden bg-gradient-to-br from-primary-50 to-silver-100">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-7xl opacity-10">🐂</span>
+            </div>
+            {/* Code badge */}
+            <div className="absolute top-4 left-4">
+              <span className="bg-primary-500 text-white text-[10px] font-black px-3 py-1 rounded-full shadow-md tracking-wider">
+                {p.kode_unik}
+              </span>
+            </div>
+            {/* Farm badge */}
+            <div className="absolute top-4 right-4">
+              <span className="bg-white/80 backdrop-blur-sm text-silver-600 text-[10px] font-bold px-2.5 py-1 rounded-full border border-silver-200">
+                {p.farm_name}
+              </span>
+            </div>
+            {/* Hover overlay */}
+            <div className="absolute inset-0 bg-primary-500/0 group-hover:bg-primary-500/5 transition-all duration-300" />
+          </div>
+
+          {/* Content */}
+          <div className="p-6">
+            <h3 className="text-base font-black text-primary-800 mb-1 truncate"
+              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+              {p.name}
+            </h3>
+
+            <p className="text-2xl font-black text-primary-500 mb-4">
+              Rp —
+            </p>
+
+            {/* Specs row */}
+            <div className="flex items-center gap-3 text-xs font-semibold text-silver-500 mb-5">
+              <span className="flex items-center gap-1 bg-silver-50 px-2.5 py-1.5 rounded-lg">
+                🏠 {p.farm_name}
+              </span>
+              <span className="flex items-center gap-1 bg-silver-50 px-2.5 py-1.5 rounded-lg">
+                🐂 {p.jenis}
+              </span>
             </div>
 
-            {/* Content */}
-            <div className="p-6">
-              <div className="flex flex-col mb-4">
-                <h3 className="text-xl font-black text-slate-800 line-clamp-1 mb-1">{product.name}</h3>
-                <span className="text-[#F59E0B] font-black text-2xl">
-                  {new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                    maximumFractionDigits: 0
-                  }).format(product.harga)}
-                </span>
-              </div>
-
-              {/* Farm Badge */}
-              <div className="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 mb-5 border border-emerald-100">
-                <span className="text-sm">🏠</span>
-                <span className="text-[10px] font-black text-emerald-700 uppercase tracking-widest line-clamp-1">{product.farm_name}</span>
-              </div>
-
-              {/* Action Button */}
-              <button className="w-full bg-[#10B981] border-b-4 border-[#059669] hover:bg-[#059669] text-white py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 transition-all shadow-lg active:translate-y-1 active:border-b-0">
-                <span className="text-xl">💬</span>
-                HUBUNGI KAMI
-              </button>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {products.length === 0 && (
-        <div className="w-full py-20 text-center text-slate-400 font-bold">
-          Belum ada produk yang tersedia.
-        </div>
-      )}
-    </div>
+            {/* CTA button */}
+            <button className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold
+                               border-2 border-primary-200 text-primary-600
+                               group-hover:bg-primary-500 group-hover:border-primary-500 group-hover:text-white
+                               transition-all duration-300">
+              Lihat Detail
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </button>
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
   );
 };
 
