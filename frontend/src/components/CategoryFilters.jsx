@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
+// KITA KEMBALIKAN KE HARDCODE DUMMY DATA BIAR AMAN DI VERCEL
 const categories = [
   { id: 1, name: 'Sapi Bali', icon: '🐂' },
   { id: 2, name: 'Sapi Madura', icon: '🐄' },
@@ -10,27 +11,7 @@ const categories = [
 ];
 
 const CategoryFilters = ({ activeCategory, onSelect }) => {
-  const [categories, setCategories] = useState([]);
-  const [loading,    setLoading]    = useState(true);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const base = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
-        const res  = await fetch(`${base}/api/categories`);
-        const data = await res.json();
-        setCategories(data);
-      } catch (err) {
-        console.error('Error fetching categories:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchCategories();
-  }, []);
-
-  if (loading) return null;
-
+  // Loading dihapus, karena data sudah pasti ada (tidak perlu nunggu API)
   return (
     <div className="max-w-7xl mx-auto px-4 py-5 w-full">
       <motion.div
@@ -69,7 +50,7 @@ const CategoryFilters = ({ activeCategory, onSelect }) => {
                     : 'bg-primary-800/60 border-primary-700/50 text-primary-300 hover:bg-primary-700 hover:border-primary-600 hover:text-white'
                 }`}
               >
-                <span className="text-2xl md:text-3xl">{cat.icon || '🐂'}</span>
+                <span className="text-2xl md:text-3xl">{cat.icon}</span>
                 <span className="uppercase tracking-wider whitespace-nowrap font-black text-[8px] md:text-[10px]">
                   {cat.name}
                 </span>
