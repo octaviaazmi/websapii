@@ -43,11 +43,11 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 py-3">
 
-        {/* ── Main row: Ditambah flex-wrap dan md:flex-nowrap ── */}
-        <div className="flex flex-wrap md:flex-nowrap items-center gap-3">
+        {/* ── Main row ── */}
+        <div className="flex items-center gap-3">
 
-          {/* 1. Logo (Kiri atas di mobile, urutan pertama di desktop) */}
-          <Link to="/" className="order-1 flex-shrink-0">
+          {/* Logo */}
+          <Link to="/" className="flex-shrink-0">
             <motion.div whileHover={{ scale: 1.03 }} className="flex items-center gap-2 cursor-pointer">
               <img src="/Logo%20Farm.png" alt="IPS" className="h-9 w-auto" />
               <span
@@ -60,34 +60,8 @@ const Navbar = () => {
             </motion.div>
           </Link>
 
-          {/* 3. Tombol Aksi (Pindah ke kanan atas di mobile, urutan terakhir di desktop) */}
-          <div className="order-2 md:order-3 flex items-center gap-2 ml-auto md:ml-0">
-            {/* Filter toggle */}
-            <motion.button
-              whileTap={{ scale: 0.96 }}
-              onClick={() => setFilterOpen(!filterOpen)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${
-                filterOpen
-                  ? 'bg-primary-700 text-white'
-                  : 'bg-primary-100 text-primary-700 hover:bg-primary-200'
-              }`}
-            >
-              <SlidersHorizontal className="h-4 w-4" />
-              <span className="hidden sm:inline">Filter</span>
-            </motion.button>
-
-            {/* Search button */}
-            <motion.button
-              whileTap={{ scale: 0.96 }}
-              onClick={handleSearch}
-              className="p-2.5 bg-primary-500 text-white rounded-xl hover:bg-primary-600 transition-all shadow-sm"
-            >
-              <Search className="h-5 w-5" />
-            </motion.button>
-          </div>
-
-          {/* 2. Search input (Turun jadi baris baru full-width di mobile, urutan kedua di desktop) */}
-          <div className="order-3 md:order-2 w-full md:flex-1 relative mt-1 md:mt-0">
+          {/* Search input */}
+          <div className="flex-1 relative">
             <input
               type="text"
               value={searchQuery}
@@ -99,6 +73,28 @@ const Navbar = () => {
             />
           </div>
 
+          {/* Filter toggle */}
+          <motion.button
+            whileTap={{ scale: 0.96 }}
+            onClick={() => setFilterOpen(!filterOpen)}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${
+              filterOpen
+                ? 'bg-primary-700 text-white'
+                : 'bg-primary-100 text-primary-700 hover:bg-primary-200'
+            }`}
+          >
+            <SlidersHorizontal className="h-4 w-4" />
+            <span className="hidden sm:inline">Filter</span>
+          </motion.button>
+
+          {/* Search button */}
+          <motion.button
+            whileTap={{ scale: 0.96 }}
+            onClick={handleSearch}
+            className="p-2.5 bg-primary-500 text-white rounded-xl hover:bg-primary-600 transition-all shadow-sm"
+          >
+            <Search className="h-5 w-5" />
+          </motion.button>
         </div>
 
         {/* ── Filter drawer ── */}
