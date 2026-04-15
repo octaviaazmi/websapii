@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// KITA KEMBALIKAN KE HARDCODE DUMMY DATA BIAR AMAN DI VERCEL
+// Gunakan data dummy agar SELALU muncul di Vercel tanpa perlu database
 const categories = [
   { id: 1, name: 'Sapi Bali', icon: '🐂' },
   { id: 2, name: 'Sapi Madura', icon: '🐄' },
@@ -11,7 +11,7 @@ const categories = [
 ];
 
 const CategoryFilters = ({ activeCategory, onSelect }) => {
-  // Loading dihapus, karena data sudah pasti ada (tidak perlu nunggu API)
+  // Hapus loading state karena data sudah ada secara lokal
   return (
     <div className="max-w-7xl mx-auto px-4 py-5 w-full">
       <motion.div
