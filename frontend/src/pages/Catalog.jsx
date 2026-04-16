@@ -24,19 +24,20 @@ const Catalog = () => {
       {/* ── Page header ── */}
       <div className="py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-2">
 
-        {/* Left: back + title */}
+        {/* Left */}
         <div className="flex items-center gap-3">
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate('/')}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-100 text-primary-700 font-bold text-sm hover:bg-primary-200 transition-all"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-100 text-primary-700
+                       font-bold text-sm hover:bg-primary-200 transition-all"
           >
             <ChevronLeft className="h-4 w-4 stroke-2" />
             Kembali
           </motion.button>
 
           <div>
-            <p className="text-[10px] font-black uppercase tracking-widest text-primary-400">Katalog</p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-primary-400 eyebrow">Katalog</p>
             <h2 className="text-lg font-black text-primary-800 leading-none"
               style={{ fontFamily: "'Playfair Display', serif" }}>
               {category === 'Semua Kategori' ? 'Semua Sapi' : `Sapi ${category}`}
@@ -45,14 +46,15 @@ const Catalog = () => {
         </div>
 
         {/* Right: search */}
-        <div className="flex items-center gap-0 rounded-xl overflow-hidden border border-primary-200 shadow-sm bg-white w-full sm:max-w-xs">
+        <div className="flex items-center gap-0 rounded-xl overflow-hidden border border-primary-200
+                        shadow-sm bg-white w-full sm:max-w-xs">
           <input
             type="text"
             value={localSearch}
             onChange={e => setLocalSearch(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleSearchSubmit()}
             placeholder="Cari sapi..."
-            className="flex-1 px-4 py-2.5 text-sm text-silver-700 focus:outline-none font-medium"
+            className="flex-1 px-4 py-2.5 text-sm text-silver-700 focus:outline-none font-medium bg-transparent"
           />
           <button
             onClick={handleSearchSubmit}
@@ -62,6 +64,20 @@ const Catalog = () => {
           </button>
         </div>
       </div>
+
+      {/* ── Active farm chip ── */}
+      {farm && farm !== 'Semua Kandang' && (
+        <div className="mb-4 flex items-center gap-2">
+          <span className="text-xs font-semibold text-silver-500">Kandang:</span>
+          <span className="px-3 py-1 bg-primary-100 text-primary-700 rounded-full text-xs font-black">
+            🏠 {farm}
+          </span>
+          <button onClick={() => setSearchParams({ category, farm: 'Semua Kandang', search })}
+            className="text-xs text-silver-400 hover:text-primary-500 font-bold transition-colors">
+            × Hapus
+          </button>
+        </div>
+      )}
 
       {/* ── Category filters ── */}
       <CategoryFilters

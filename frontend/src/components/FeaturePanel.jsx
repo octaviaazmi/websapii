@@ -6,21 +6,25 @@ const features = [
     icon: '🌙',
     title: 'Lebih Ringan',
     desc: 'Cicil tabungan qurban sesuai kemampuan, tanpa beban di momen terakhir.',
+    highlight: true,
   },
   {
     icon: '📅',
     title: 'Lebih Terencana',
     desc: 'Rencanakan qurban dari jauh hari. Pilih waktu dan hewan yang terbaik.',
+    highlight: false,
   },
   {
     icon: '✨',
     title: 'Lebih Bermanfaat',
     desc: 'Qurban tersalurkan tepat sasaran ke yang membutuhkan, langsung dari farm.',
+    highlight: false,
   },
   {
     icon: '🛡️',
     title: 'Terpercaya',
     desc: 'Mitra kandang terverifikasi dan transparan — kamu tahu hewanmu ada di mana.',
+    highlight: false,
   },
 ];
 
@@ -44,21 +48,29 @@ const FeaturePanel = () => {
         viewport={{ once: true, amount: 0.2 }}
         className="grid grid-cols-2 md:grid-cols-4 gap-4"
       >
-        {features.map((f, i) => (
+        {features.map((f) => (
           <motion.div
             key={f.title}
             variants={item}
-            className="relative bg-primary-500 rounded-2xl px-5 py-6 flex flex-col items-center text-center gap-3
-                       shadow-lg border border-primary-400/30 overflow-hidden
-                       hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-default"
+            className={`relative rounded-2xl px-5 py-6 flex flex-col items-center text-center gap-3
+                       shadow-lg border overflow-hidden
+                       hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-default
+                       ${f.highlight
+                         ? 'bg-primary-500 border-primary-400/30'
+                         : 'bg-primary-600 border-primary-500/30'
+                       }`}
           >
-            {/* Subtle shimmer layer */}
+            {/* Shimmer layer */}
             <div className="absolute inset-0 opacity-10"
               style={{ background: 'linear-gradient(135deg, #e8c285 0%, transparent 60%)' }}
             />
+            {/* Silver koin accent top-right */}
+            <div className="absolute -top-3 -right-3 w-12 h-12 rounded-full opacity-10"
+              style={{ background: 'radial-gradient(circle, #cbd5e1 0%, #64748b 70%)' }}
+            />
 
             {/* Icon circle */}
-            <div className="w-12 h-12 rounded-xl bg-primary-700/60 flex items-center justify-center text-2xl
+            <div className="w-12 h-12 rounded-xl bg-primary-800/50 flex items-center justify-center text-2xl
                             border border-primary-400/20 shadow-inner relative z-10">
               {f.icon}
             </div>
