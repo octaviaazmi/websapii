@@ -79,15 +79,15 @@ function App() {
                 ind
               </span>
 
-              {/* Logo menggantikan huruf "o" — BULAT, BESAR */}
-              <span className="inline-flex items-center justify-center mx-1 md:mx-2" style={{ lineHeight: 1 }}>
+              {/* Logo menggantikan huruf "o" — BULAT, SANGAT BESAR */}
+              <span className="inline-flex items-center justify-center mx-2 md:mx-4" style={{ lineHeight: 1 }}>
                 <motion.img
                   src="/Logo%20Farm.png"
                   alt="o"
-                  className="w-12 h-12 md:w-20 md:h-20 object-contain drop-shadow-2xl"
+                  className="w-28 h-28 md:w-36 md:h-36 object-contain drop-shadow-2xl"
                   style={{
-                    filter: 'drop-shadow(0 4px 16px rgba(184,126,81,0.5))',
-                    transform: 'translateY(2px)',
+                    filter: 'drop-shadow(0 6px 24px rgba(184,126,81,0.65))',
+                    transform: 'translateY(4px)',
                   }}
                   animate={{ rotate: [0, 3, -3, 0] }}
                   transition={{ duration: 6, ease: 'easeInOut', repeat: Infinity }}
